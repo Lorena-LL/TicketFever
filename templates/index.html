@@ -142,7 +142,7 @@
                     <div class="home_search_container">
                         <div class="home_search_title">Search for an event</div>
                         <div class="home_search_content">
-                            <form action="#" class="home_search_form" id="home_search_form">
+                            <form action="/search" class="home_search_form" id="home_search_form">
                                 <div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
                                     <input type="text" class="search_input search_input_1" placeholder="City" id="city">
                                     <input type="text" class="search_input search_input_2" placeholder="Date" id="date">
@@ -181,7 +181,7 @@
 			<div class="row">
 				<div class="col text-center">
 					<div class="section_subtitle">simply amazing places</div>
-					<div class="section_title"><h2>Popular Destinations</h2></div>
+					<div class="section_title"><h2>Popular Events</h2></div>
 				</div>
 			</div>
 			<div class="row destinations_row">
@@ -195,7 +195,7 @@
 								<img src="{{eventListing.img.url}}" alt="">
 							</div>
 							<div class="destination_content">
-								<div class="destination_title"><a href="destinations.html">{{ eventListing.name }}</a></div>
+								<div class="destination_title"><a href="search/item">{{ eventListing.name }}</a></div>
 								<div class="destination_subtitle"><p>Takes place in {{ eventListing.date }}</p></div>
 								<div class="destination_price">$ {{ eventListing.price }}</div>
 							</div>
