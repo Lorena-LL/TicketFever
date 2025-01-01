@@ -142,13 +142,20 @@
                     <div class="home_search_container">
                         <div class="home_search_title">Search for an event</div>
                         <div class="home_search_content">
-                            <form action="/search" class="home_search_form" id="home_search_form">
+                            <form action="/search" method="get" class="home_search_form" id="home_search_form">
                                 <div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
-                                    <input type="text" class="search_input search_input_1" placeholder="City" id="city">
-                                    <input type="text" class="search_input search_input_2" placeholder="Date" id="date">
-                                    <input type="text" class="search_input search_input_3" placeholder="Category" id="category">
-                                    <input type="text" class="search_input search_input_4" placeholder="Budget" id="budget">
-                                    <button class="home_search_button" type="submit">search</button>
+                                    <input type="text" class="search_input search_input_1" placeholder="City" id="city" name="city">
+                                    <input type="date" class="search_input search_input_2" id="date" name="date">
+                                    <select class="search_input search_input_3" id="category" name="category">
+                                        <option value="">Select Category</option>
+                                        <option value="concert">Concert</option>
+                                        <option value="opera">Opera</option>
+                                        <option value="theatre">Theatre</option>
+                                        <option value="standup">Stand-Up</option>
+                                        <option value="ballet">Ballet</option>
+                                    </select>
+                                    <input type="number" class="search_input search_input_4" placeholder="Maximum Budget" id="budget" name="budget">
+                                    <button class="home_search_button" type="submit">Search</button>
                                 </div>
                             </form>
                         </div>
@@ -158,21 +165,21 @@
         </div>
     </div>
 
-    <script>
-        document.getElementById("home_search_form").addEventListener("submit", function(event) {
-            // Get all input fields
-            const city = document.getElementById("city").value.trim();
-            const date = document.getElementById("date").value.trim();
-            const category = document.getElementById("category").value.trim();
-            const budget = document.getElementById("budget").value.trim();
-
-            // Check if at least one field has a value
-            if (!city && !date && !category && !budget) {
-                event.preventDefault(); // Prevent form submission
-                alert("Please fill out at least one field!");
-            }
-        });
-    </script>
+{#    <script>#}
+{#        document.getElementById("home_search_form").addEventListener("submit", function(event) {#}
+{#            // Get all input fields#}
+{#            const city = document.getElementById("city").value.trim();#}
+{#            const date = document.getElementById("date").value.trim();#}
+{#            const category = document.getElementById("category").value.trim();#}
+{#            const budget = document.getElementById("budget").value.trim();#}
+{##}
+{#            // Check if at least one field has a value#}
+{#            if (!city && !date && !category && !budget) {#}
+{#                event.preventDefault(); // Prevent form submission#}
+{#                alert("Please fill out at least one field!");#}
+{#            }#}
+{#        });#}
+{#    </script>#}
 
 	<!-- Destinations -->
 
@@ -180,7 +187,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col text-center">
-					<div class="section_subtitle">simply amazing places</div>
+					<div class="section_subtitle">simply amazing experiences</div>
 					<div class="section_title"><h2>Popular Events</h2></div>
 				</div>
 			</div>
@@ -192,10 +199,22 @@
 						<!-- Destination -->
 						<div class="destination item">
 							<div class="destination_image">
-								<img src="{{eventListing.img.url}}" alt="">
+                                <form action="search/item" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="event_id" value="{{ eventListing.id }}">
+                                    <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                                        <img src="{{ eventListing.img.url }}" alt="">
+                                    </button>
+                                </form>
 							</div>
 							<div class="destination_content">
-								<div class="destination_title"><a href="search/item">{{ eventListing.name }}</a></div>
+                                <form action="search/item" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="event_id" value="{{ eventListing.id }}">
+                                    <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                                        <div class="destination_title">{{ eventListing.name }}</div>
+                                    </button>
+                                </form>
 								<div class="destination_subtitle"><p>Takes place in {{ eventListing.date }}</p></div>
 								<div class="destination_price">$ {{ eventListing.price }}</div>
 							</div>

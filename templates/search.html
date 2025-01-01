@@ -2,9 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
 </head>
 <body>
-
+    <h1>Search Results</h1>
+    {% if event_listings %}
+        <ul>
+        {% for event in event_listings %}
+            <li>
+                <h2>{{ event.name }}</h2>
+                <p>{{ event.description }}</p>
+                <p>Category: {{ event.category }}</p>
+                <p>Date: {{ event.date }}</p>
+                <p>Price: {{ event.price }}</p>
+                <p>Location: {{ event.place }}</p>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No events match your search criteria.</p>
+    {% endif %}
 </body>
 </html>

@@ -27,6 +27,7 @@ class EventListing(models.Model):
     available_nr_tickets = models.IntegerField()
     place = models.ForeignKey(Place, on_delete=models.CASCADE, default=1)
     img = models.ImageField(upload_to='pics')
+    clicks = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name

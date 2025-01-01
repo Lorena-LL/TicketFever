@@ -896,7 +896,7 @@ section
 {
 	margin-top: 15px;
 }
-.destination_title a
+.destination_title a, .destination_title
 {
 	font-family: 'Oswald', sans-serif;
 	font-size: 30px;
