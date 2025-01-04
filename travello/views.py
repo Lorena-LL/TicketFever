@@ -21,20 +21,25 @@ def search(request):
 
     # Build the filter arguments dynamically based on non-empty fields
     filters = {}
+    filterlist = []
     if city:
         filters['place__city__icontains'] = city  # Case-insensitive partial match for city
+        filterlist.append(('city', city))
     if date:
         filters['date'] = date  # Exact date match
+        filterlist.append(('date', date))
     if category:
         filters['category'] = category
+        filterlist.append(('category', category))
     if budget:
         filters['price__lte'] = float(budget)  # Price less than or equal to budget
+        filterlist.append(('max budget', budget))
 
     # Query the database
-    event_listings = EventListing.objects.filter(**filters)
+    eventListings = EventListing.objects.filter(**filters)
 
     # Return the filtered results
-    return render(request, 'search.html', {'event_listings': event_listings})
+    return render(request, 'search.html', {'eventsList': eventListings, 'filters':filterlist})
 
 def display_item(request):
     eventId = request.POST['event_id']

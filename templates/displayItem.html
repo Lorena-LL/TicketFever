@@ -18,15 +18,6 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles/main_styles.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/responsive.css' %}">
     <style>
-        .event-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #ffffff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
         .event-image img {
             width: 50%;
             display: block;
@@ -35,50 +26,76 @@
             border-radius: 8px;
             margin-bottom: 20px;
         }
-        .event-title {
-            font-size: 2em;
-            color: #333;
-            margin-bottom: 10px;
-        }
-        .event-category {
-            color: #007bff;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        .event-description {
-            margin-bottom: 20px;
-        }
         .event-details {
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-        .event-details span {
-            font-weight: bold;
-        }
-        .header-space{
-            width: 100%;
-            height: 50px;
-        }
-        .fenix-text{
-            font-family: Fenix, serif;
-            text-align: center;
-            font-size: 35px;
-            color: rgb(0, 0, 0);
-        }
-
-        .font-oswald{
-            font-size: 18px;
-            line-height: 55px;
-            font-family: 'Oswald', sans-serif;
-            color: #2e2e2e;
-            font-weight: 400;
-            text-align: center;
-        }
+        font-family: 'Oswald', sans-serif;
+        text-align: center;
+        margin: 20px auto;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        max-width: 600px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .event-details p {
+        margin: 10px 0;
+        color: #333;
+        font-size: 18px;
+    }
+    .event-details span {
+        font-weight: bold;
+        color: #b06d3a;
+    }
+    .reserve-button {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #b06d3a;
+        color: #fff;
+        text-transform: uppercase;
+        font-family: 'Oswald', sans-serif;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .reserve-button:hover {
+        background-color: #915527;
+        transform: translateY(-2px);
+    }
+    .reserve-button:active {
+        background-color: #915527;
+        transform: translateY(1px);
+    }
+    .event-description-container {
+        font-family: 'Oswald', sans-serif;
+        text-align: center;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #f3f3f3;
+        border-radius: 10px;
+        max-width: 700px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .event-description-container h3 {
+        font-size: 24px;
+        color: #b06d3a;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .event-description-container p {
+        font-size: 18px;
+        color: #555;
+        line-height: 1.6;
+        margin: 0;
+    }
     </style>
 </head>
 
 <body>
-    <div class='header-space'></div>
+{#    <div class='header-space'></div>#}
     <div class="super_container">
         <header class="header scrolled">
             <div class="container">
@@ -86,7 +103,6 @@
                     <div class="col">
                         <div class="header_content d-flex flex-row align-items-center justify-content-start">
                             <div class="header_content_inner d-flex flex-row align-items-end justify-content-start">
-                                <!-- <a href="">TicketFever</a> goes to home(treated in eventlistingsite/urls/'') -->
                                 <div class="logo"><a href="/">TicketFever</a></div>
                                 <nav class="main_nav">
                                     <ul class="d-flex flex-row align-items-start justify-content-start">
@@ -120,20 +136,21 @@
             <div class="event-image">
                 <img src="{{ event_listing.img.url }}" alt="{{ event_listing.name }}">
             </div>
+
+            <br>
+            <div class="event-description-container">
+                <h3>Description</h3>
+                <p>{{ event_listing.description }}</p>
+            </div>
+
+            <div class="event-details">
+                <p><span>Date:</span> {{ event_listing.date }}</p>
+                <p><span>Price:</span> ${{ event_listing.price }}</p>
+                <p><span>Available Tickets:</span> {{ event_listing.available_nr_tickets }}</p>
+                <p><span>Location:</span> {{ event_listing.place.city }}, {{ event_listing.place.country }}</p>
+                <button class="reserve-button">Reserve</button>
+            </div>
         </div>
-
-
-        <div class="font-oswald">{{ event_listing.description }}</div>
-        <div class="event-details">
-            <p><span>Date:</span> {{ event_listing.date }}</p>
-            <p><span>Price:</span> ${{ event_listing.price }}</p>
-            <p><span>Available Tickets:</span> {{ event_listing.available_nr_tickets }}</p>
-            <p><span>Location:</span> {{ event_listing.place.city }}, {{ event_listing.place.country }}</p>
-        </div>
-
-
-
-
 
 
 
