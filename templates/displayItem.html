@@ -35,67 +35,66 @@
         border-radius: 10px;
         max-width: 600px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-    .event-details p {
-        margin: 10px 0;
-        color: #333;
-        font-size: 18px;
-    }
-    .event-details span {
-        font-weight: bold;
-        color: #b06d3a;
-    }
-    .reserve-button {
-        display: block;
-        margin: 20px auto;
-        padding: 10px 20px;
-        background-color: #b06d3a;
-        color: #fff;
-        text-transform: uppercase;
-        font-family: 'Oswald', sans-serif;
-        font-size: 16px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-    .reserve-button:hover {
-        background-color: #915527;
-        transform: translateY(-2px);
-    }
-    .reserve-button:active {
-        background-color: #915527;
-        transform: translateY(1px);
-    }
-    .event-description-container {
-        font-family: 'Oswald', sans-serif;
-        text-align: center;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: #f3f3f3;
-        border-radius: 10px;
-        max-width: 700px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-    .event-description-container h3 {
-        font-size: 24px;
-        color: #b06d3a;
-        margin-bottom: 15px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    .event-description-container p {
-        font-size: 18px;
-        color: #555;
-        line-height: 1.6;
-        margin: 0;
-    }
+        }
+        .event-details p {
+            margin: 10px 0;
+            color: #333;
+            font-size: 18px;
+        }
+        .event-details span {
+            font-weight: bold;
+            color: #b06d3a;
+        }
+        .reserve-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #b06d3a;
+            color: #fff;
+            text-transform: uppercase;
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .reserve-button:hover {
+            background-color: #915527;
+            transform: translateY(-2px);
+        }
+        .reserve-button:active {
+            background-color: #915527;
+            transform: translateY(1px);
+        }
+        .event-description-container {
+            font-family: 'Oswald', sans-serif;
+            text-align: center;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f3f3f3;
+            border-radius: 10px;
+            max-width: 700px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .event-description-container h3 {
+            font-size: 24px;
+            color: #b06d3a;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .event-description-container p {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.6;
+            margin: 0;
+        }
     </style>
 </head>
 
 <body>
-{#    <div class='header-space'></div>#}
     <div class="super_container">
         <header class="header scrolled">
             <div class="container">
@@ -110,6 +109,7 @@
                                         {% if user.is_authenticated %}
                                             <li>Hello, {{user.first_name}}</li>
                                             <li><a href="/accounts/logout">Logout</a></li>
+                                            <li><a href="/user-reservations">My Reservations</a></li>
                                         {% else %}
                                             <li><a href="/accounts/register">Register</a></li>
                                             <li><a href="/accounts/login">Login</a></li>
@@ -144,11 +144,16 @@
             </div>
 
             <div class="event-details">
+{#                <p><span>Clicks:</span> ${{ event_listing.clicks }}</p>#}
                 <p><span>Date:</span> {{ event_listing.date }}</p>
                 <p><span>Price:</span> ${{ event_listing.price }}</p>
                 <p><span>Available Tickets:</span> {{ event_listing.available_nr_tickets }}</p>
                 <p><span>Location:</span> {{ event_listing.place.city }}, {{ event_listing.place.country }}</p>
-                <button class="reserve-button">Reserve</button>
+                <form action="/reserve" method="post" id="reservation_button_form">
+                    {% csrf_token %}
+                    <input type="hidden" name="event_id" value="{{ event_listing.id }}">
+                    <button class="reserve-button" type="submit">Reserve</button>
+                </form>
             </div>
         </div>
 

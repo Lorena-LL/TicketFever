@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django.shortcuts import render
-from .models import EventListing, Place
+from .models import EventListing, Place, Reservation
 from django.http import HttpResponse
 # Create your views here.
 
@@ -44,4 +44,30 @@ def search(request):
 def display_item(request):
     eventId = request.POST['event_id']
     event_listing = EventListing.objects.get(id=eventId)
+    event_listing.clicks += 1
+    event_listing.save()
     return render(request, 'displayItem.html', {'event_listing': event_listing})
+
+def check_resrevations(request):
+    if not request.user.is_authenticated:
+        return render(request, 'reservation.html', {'status': 'not logged in'})
+    else:
+        eventId = request.POST['event_id']
+        event_listing = EventListing.objects.get(id=eventId)
+        user = request.user
+
+        if event_listing.available_nr_tickets > 0:
+            reservation = Reservation.objects.create(event = event_listing, user = user)
+            event_listing.available_nr_tickets -= 1
+            event_listing.save()
+            return render(request, 'reservation.html', {'status': 'success'})
+        else:
+            return render(request, 'reservation.html', {'status': 'no tickets available'})
+
+def user_reservations(request):
+    user = request.user
+    if not user.is_authenticated:
+        return render(request, 'user-reservations.html', {'status': 'not logged in'})
+    else:
+        reservations = Reservation.objects.filter(user=user)
+        return render(request, 'user-reservations.html', {'status': 'success', 'reservations': reservations})

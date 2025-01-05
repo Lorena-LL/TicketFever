@@ -1,0 +1,135 @@
+{% load static %}
+{% static "images" as baseUrl %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Status</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+    <link href="{% static 'plugins/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.theme.default.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/animate.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/main_styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/responsive.css' %}">
+    <style>
+        .my-body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .my-container {
+            font-family: 'Oswald', sans-serif;
+            text-align: center;
+            margin: 20px auto;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            max-width: 600px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        my-h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        my-p {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        .my-btn {
+            background-color: #b06d3a;
+            color: white;
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .my-btn:hover {
+            background-color: #915527;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="super_container">
+        <header class="header scrolled">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="header_content d-flex flex-row align-items-center justify-content-start">
+                            <div class="header_content_inner d-flex flex-row align-items-end justify-content-start">
+                                <div class="logo"><a href="/">TicketFever</a></div>
+                                <nav class="main_nav">
+                                    <ul class="d-flex flex-row align-items-start justify-content-start">
+                                        <li class="active"><a href="/">Home</a></li>
+                                        {% if user.is_authenticated %}
+                                            <li>Hello, {{user.first_name}}</li>
+                                            <li><a href="/accounts/logout">Logout</a></li>
+                                            <li><a href="/user-reservations">My Reservations</a></li>
+                                        {% else %}
+                                            <li><a href="/accounts/register">Register</a></li>
+                                            <li><a href="/accounts/login">Login</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+
+{% if status == 'success' %}
+    <div class="my-body">
+         <div class="my-container">
+            <my-h1>The reservation was completed successfully.</my-h1><br><br>
+            <my-p>Your reservation has been successfully processed. You can now view all your reservations.</my-p><br><br>
+            <button class="my-btn" onclick="window.location.href='/user-reservations'">See all my reservations</button>
+        </div>
+    </div>
+
+{% elif status == 'no tickets available' %}
+    <div class="my-body">
+         <div class="my-container">
+            <my-h1>The reservation failed.</my-h1><br><br>
+            <my-p>There were no available tickets left. There are other experiences waiting for you!</my-p><br><br>
+            <button class="my-btn" onclick="window.location.href='/'">Discover a new experience</button>
+        </div>
+    </div>
+
+{% elif status == 'not logged in' %}
+    <div class="my-body">
+         <div class="my-container">
+             <my-h1>The reservation failed.</my-h1><br><br>
+             <my-p>You are not logged in. Log in to complete the reservation.</my-p><br><br>
+             <button class="my-btn" onclick="window.location.href='/accounts/login'">Go to Log in</button>
+        </div>
+    </div>
+
+{% endif %}
+
+
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'styles/bootstrap4/popper.js' %}"></script>
+    <script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
+    <script src="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.js' %}"></script>
+    <script src="{% static 'plugins/Isotope/isotope.pkgd.min.js' %}"></script>
+{#    <script src="{% static 'plugins/scrollTo/jquery.scrollTo.min.js' %}"></script>#}
+    <script src="{% static 'plugins/easing/easing.js' %}"></script>
+    <script src="{% static 'plugins/parallax-js-master/parallax.min.js' %}"></script>
+{#    <script src="{% static 'js/custom.js' %}"></script>#}
+</body>
+</html>
