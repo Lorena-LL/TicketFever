@@ -135,8 +135,8 @@
                                         {% if user.is_authenticated %}
                                             <li>Hello, {{user.first_name}}</li>
                                             <li><a href="/accounts/logout">Logout</a></li>
-                                            <li class="active"><a href="/user-reservations">My Reservations</a></li>
-                                            <li><a href="/user-messages" id="colorChangeItem" >My Messages</a></li>
+                                            <li><a href="/user-reservations">My Reservations</a></li>
+                                            <li class="active"><a href="/user-messages" id="colorChangeItem" >My Messages</a></li>
                                                 <script>
                                                     const varFromBackend = {{ has_new_messages|yesno:"true,false" }};
                                                     if (varFromBackend) {
@@ -163,57 +163,42 @@
         </header>
     </div>
 
-
-{% if status == 'success' %}
-
     <div class="my-other-container">
-        <other-h1>My Reservations</other-h1>
-
-        {% if reservations %}
-        <table>
-            <thead>
-                <tr>
-                    <th>User</th>
-                    <th>Event</th>
-                    <th>Date</th>
-                    <th>Category</th>
-                    <th>Place</th>
-                    <th>Reserved At</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for reservation in reservations %}
-                <tr>
-                    <td>{{ reservation.user.first_name }} {{ reservation.user.last_name }}</td>
-                    <td>{{ reservation.event.name }}</td>
-                    <td>{{ reservation.event.date }}</td>
-                    <td>{{ reservation.event.category }}</td>
-                    <td>{{ reservation.event.place }}</td>
-                    <td>{{ reservation.reserved_at }}</td>
-                    {% if reservation.event.cancelled %}
-                        <td>Cancelled Event</td>
-                    {% else %}
-                        <td>Active</td>
-                    {% endif %}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <other-h1>My Messages</other-h1>
+        {% if messages %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Message</th>
+                        <th>Received At</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for message in messages %}
+                    <tr>
+                        <td>The event "{{ message.event.name }}" was cancelled. We are sorry for the inconvenience.</td>
+                        <td>{{ message.created_at }}</td>
+                        {% if message.is_read %}
+                            <td>Read</td>
+                        {% else %}
+                            <td style="color:#fca84e">Not Read</td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <br>
+            <form action="/user-messages" method="post">
+                {% csrf_token %}
+                <div align="center">
+                    <button type="submit" class="my-btn" name="set_as_read" value="True">Mark all as read</button>
+                </div>
+            </form>
         {% else %}
-        <p class="no-reservations">You have no reservations at the moment.</p>
+            <p class="no-reservations">You have no messages at the moment.</p>
         {% endif %}
     </div>
-
-{% elif status == 'not logged in' %}
-    <div class="my-body">
-         <div class="my-container">
-             <my-h1>You are not logged in.</my-h1><br><br>
-             <my-p>To see your list of reservations log in.</my-p><br><br>
-             <button class="my-btn" onclick="window.location.href='/accounts/login'">Go to Log in</button>
-        </div>
-    </div>
-{% endif %}
 
     <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
     <script src="{% static 'styles/bootstrap4/popper.js' %}"></script>

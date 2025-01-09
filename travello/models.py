@@ -29,6 +29,7 @@ class EventListing(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE, default=1)
     img = models.ImageField(upload_to='pics')
     clicks = models.IntegerField(default=0)
+    cancelled = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -40,3 +41,13 @@ class Reservation(models.Model):
 
     def __str__(self):
         return f"Reservation by {self.user.username} for {self.event.name}"
+
+class Message(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    event = models.ForeignKey(EventListing, on_delete=models.CASCADE)
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user}: {self.event.name} at {self.created_at}"

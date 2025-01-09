@@ -72,11 +72,24 @@
                                 <div class="logo"><a href="/">TicketFever</a></div>
                                 <nav class="main_nav">
                                     <ul class="d-flex flex-row align-items-start justify-content-start">
-                                        <li class="active"><a href="/">Home</a></li>
+                                        <li><a href="/">Home</a></li>
                                         {% if user.is_authenticated %}
                                             <li>Hello, {{user.first_name}}</li>
                                             <li><a href="/accounts/logout">Logout</a></li>
                                             <li><a href="/user-reservations">My Reservations</a></li>
+                                            <li><a href="/user-messages" id="colorChangeItem" >My Messages</a></li>
+                                            <script>
+                                                const varFromBackend = {{ has_new_messages|yesno:"true,false" }};
+                                                if (varFromBackend) {
+                                                    const colorBox = document.getElementById('colorChangeItem');
+                                                    let isRed = false;
+
+                                                    setInterval(() => {
+                                                        isRed = !isRed;
+                                                        colorBox.style.color = isRed ? '#fca84e' : 'white';
+                                                    }, 1000);
+                                                }
+                                            </script>
                                         {% else %}
                                             <li><a href="/accounts/register">Register</a></li>
                                             <li><a href="/accounts/login">Login</a></li>
@@ -105,7 +118,6 @@
     <div class="my-body">
          <div class="my-container">
             <my-h1>The reservation failed.</my-h1><br><br>
-            <my-p>There were no available tickets left. There are other experiences waiting for you!</my-p><br><br>
             <button class="my-btn" onclick="window.location.href='/'">Discover a new experience</button>
         </div>
     </div>
